@@ -27,12 +27,42 @@ mainContent.innerHTML = Cardlist(newData);
  */
 const toggle = document.querySelector(".toggle");
 
+const docElement = document.documentElement;
+
+const displayModeOnLoad = ( ) => {
+
+  let dark = false;
+  dark = !! (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+  dark = localStorage.getItem("darkMode") === "enabled";
+  if (dark)
+    {
+      docElement.classList.add("dark");
+      toggle.setAttribute("aria-pressed", "true");
+      localStorage.setItem("darkMode", "enabled");
+    }
+    else
+    {
+      docElement.classList.add("light");
+      toggle.removeAttribute("aria-pressed");
+      localStorage.setItem("darkMode", "disabled");
+    }
+}
+displayModeOnLoad();
+
 // Trigger mode change with toggle.
 const toggleDisplayMode = () => {
   if (toggle.getAttribute("aria-pressed") === "true") {
     toggle.removeAttribute("aria-pressed");
+    localStorage.setItem("darkMode", "disabled");
   } else {
     toggle.setAttribute("aria-pressed", "true");
+    localStorage.setItem("darkMode", "enabled");
   }
+  docElement.classList.toggle("light");
+  docElement.classList.toggle("dark");
+
 };
 toggle.addEventListener("click", () => toggleDisplayMode());

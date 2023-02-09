@@ -23,7 +23,22 @@ const newData = data.map((imgData) => {
 
 const mainContent = document.querySelector(".main-content");
 
-mainContent.innerHTML = Cardlist(newData);
+const loadButton = document.querySelector("#load");
+const loader = document.querySelector('.loader');
+const target = document.querySelector(".cardlist")
+const loadCards = (enteries) => {
+  enteries.forEach(function (entry) {
+  loader.classList.toggle("hidden")
+  loadButton.classList.toggle("hidden")
+  setTimeout( () => {
+    mainContent.innerHTML = Cardlist(newData);
+  }, 3000);
+});
+}
+
+const observer = new IntersectionObserver(loadCards)
+
+observer.observe(target)
 
 /**
  * Light/dark mode feature.
